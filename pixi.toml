@@ -1,0 +1,12 @@
+[workspace]
+authors = ["h427ur <h427ur@outlook.com>"]
+channels = ["conda-forge"]
+name = "img_process"
+platforms = ["osx-arm64"]
+version = "0.1.0"
+
+[tasks]
+
+[dependencies]
+numpy = ">=2.5.4,<3"
+opencv = ">=5.0.0,<6"
