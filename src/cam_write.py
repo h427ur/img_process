@@ -29,11 +29,11 @@ if not writer.isOpened():
     raise Exception("동영상 파일이 안 열렸다구~")
 
 
-while 1:
+while True:
     ret, frame = cam.read()
     if not ret:
         break
-    if cv.waitKey(30) >= 0:
+    if cv.waitKey(delay) >= 0:
         break
 
     writer.write(frame)
