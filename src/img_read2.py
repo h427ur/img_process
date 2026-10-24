@@ -1,8 +1,9 @@
 import cv2 as cv
+
 from common.utils import get_matInfo
 
 title1, title2 = "color2gray", "color"
-path = "../images/read_color.jpg"
+path = "images/read_color.jpg"
 color2gray = cv.imread(path, cv.IMREAD_GRAYSCALE)
 color = cv.imread(path, cv.IMREAD_COLOR)
 

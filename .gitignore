@@ -1,8 +1,10 @@
 # pixi environments
 .pixi/*
 !.pixi/config.toml
+.pixi/
 .vscode/
 .zed/
 .gram/
 .idea/
 out/
+__pycache__/

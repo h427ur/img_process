@@ -1,9 +1,10 @@
 import cv2 as cv
+
 from common.utils import get_matInfo
 
 title1, title2 = "16bit", "32bit"
-path1 = "../images/read_16.tif"
-path2 = "../images/read_32.tif"
+path1 = "images/read_16.tif"
+path2 = "images/read_32.tif"
 color1 = cv.imread(path1, cv.IMREAD_UNCHANGED)
 color2 = cv.imread(path2, cv.IMREAD_UNCHANGED)
 
