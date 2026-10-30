@@ -2,7 +2,7 @@ import cv2 as cv
 
 from common.utils import put_str
 
-path = "images/test.mp4"
+path = "./images/test.mp4"
 vid = cv.VideoCapture(path)
 
 if not vid.isOpened():
