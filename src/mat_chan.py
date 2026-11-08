@@ -12,7 +12,7 @@ chan_m = cv.merge(chan)
 chan_s = cv.split(chan_m)
 
 print(f"chan_s: {np.array(chan_s).shape}")
-print(f"chan_m: {np.array(chan_m).shape}")
+print(f"chan_m: {chan_m.shape}")
 
 print(f"[blu]: \n{blu}")
 
