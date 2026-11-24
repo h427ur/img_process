@@ -6,7 +6,7 @@ img = cv.imread("images/pixel.jpg", cv.IMREAD_GRAYSCALE)
 roi_img = img[y:y+h, x:x+w]
 
 #print(f"[roi_img] =\n{roi_img}")
-
+#인접한 픽셀끼리의 밝기 변화를 나타낸다
 print("[roi_img] = ")
 for r in roi_img:
     for px in r:

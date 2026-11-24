@@ -16,19 +16,19 @@ def get_matInfo(name, img):
 def put_str(frame, text, pt, val, color=(120, 200, 90)):
     text += str(val)
     shade = (pt[0] + 2, pt[1] + 2)
-    font = FONT_HERSHEY_SIMPLEX
-    putText(frame, text, shade, font, 0.7, (0, 0, 0), 2)
-    putText(frame, text, pt, font, 0.7, color, 2)
+    font = cv.FONT_HERSHEY_SIMPLEX
+    cv.putText(frame, text, shade, font, 0.7, (0, 0, 0), 2)
+    cv.putText(frame, text, pt, font, 0.7, color, 2)
 
 def calc_histo(
         img,
         size,
-        ranges:list[int] = [0, 256]
-) -> numpy.ndarray:
+        ranges = [0, 256]
+) -> np.ndarray:
     hist = np.zeros((size, 1), np.float32) # <- 여기 에러
     gap = ranges[1] / size
 
-    for i in (img / gap).flat():
+    for i in (img / gap).flat:
         hist[int(i)] += 1
 
     return hist
@@ -38,14 +38,41 @@ def draw_histo(
         shape:tuple[int, int] = (200, 256)
 ):
     img = np.full(shape, 255, np.uint8)
+    #정규화; 값을 특정 범위로 제한 및 표현
     cv.normalize(hist, hist, 0, shape[0], cv.NORM_MINMAX)
+    gap = img.shape[1] / hist.shape[0] #그래프 넓이를 계급 개수로 나눠 한 계급의 너비를 구함
+
+    for i, h in enumerate(hist):
+        x = int(round(i * gap)) #막대가 그려지는 시작 좌표
+        w = int(round(gap)) #너비
+        cv.rectangle(img, (x, 0, w, int(h)), 0, cv.FILLED)
+        #이러면 그래프가 위에서 아래로 그려진다.
+
+    return cv.flip(img, 0) # 그걸 상하반전
+
+#sliding & stretching
+
+def mk_pallete(rows):
+    hue = [round(i * 180 / rows) for i in range(rows)]
+    hsv = [[[h, 0xff, 0xff]] for h in hue]
+    hsv = np.array(hsv, dtype=np.uint8)
+
+    return cv.cvtColor(hsv, cv.COLOR_HSV2BGR)
+
+def draw_histo_c(
+        hist,
+        shape:tuple[int, int, int] = (200, 256, 3)
+):
+    hsv_pallete = mk_pallete(hist.shape[0])
+    img = np.full(shape, 255, np.uint8)
+    cv.normalize(hist, hist, 0, shape[0], cv.NORM_MINMAX)
+
     gap = img.shape[1] / hist.shape[0]
 
     for i, h in enumerate(hist):
         x = int(round(i * gap))
         w = int(round(gap))
-        cv.rectangle(img, (x, 0, w, int(h)), 0, cv.FILLED)
+        color = tuple(map(int, hsv_pallete[i][0]))
+        cv.rectangle(img, (x, 0, w, int(h)), color, cv.FILLED)
 
     return cv.flip(img, 0)
-
-#sliding & stretching

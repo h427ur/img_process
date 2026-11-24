@@ -1,8 +1,9 @@
-import numpy as np
 import cv2 as cv
+import numpy as np
+
 from common.utils import draw_histo
 
-img = cv.imread("images/pixel.jpg", cv.IMREAD_GRAYSCALE)
+img = cv.imread("./images/pixel.jpg", cv.IMREAD_GRAYSCALE)
 
 size = [32]
 ranges = [0, 256]
