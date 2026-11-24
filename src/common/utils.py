@@ -1,4 +1,5 @@
-from cv2 import FONT_HERSHEY_SIMPLEX, putText
+import cv2 as cv
+import numpy as np
 
 def get_matInfo(name, img):
     if img.dtype == "uint8": mat_T = "CV_8U"
@@ -18,3 +19,33 @@ def put_str(frame, text, pt, val, color=(120, 200, 90)):
     font = FONT_HERSHEY_SIMPLEX
     putText(frame, text, shade, font, 0.7, (0, 0, 0), 2)
     putText(frame, text, pt, font, 0.7, color, 2)
+
+def calc_histo(
+        img,
+        size,
+        ranges:list[int] = [0, 256]
+) -> numpy.ndarray:
+    hist = np.zeros((size, 1), np.float32) # <- 여기 에러
+    gap = ranges[1] / size
+
+    for i in (img / gap).flat():
+        hist[int(i)] += 1
+
+    return hist
+
+def draw_histo(
+        hist,
+        shape:tuple[int, int] = (200, 256)
+):
+    img = np.full(shape, 255, np.uint8)
+    cv.normalize(hist, hist, 0, shape[0], cv.NORM_MINMAX)
+    gap = img.shape[1] / hist.shape[0]
+
+    for i, h in enumerate(hist):
+        x = int(round(i * gap))
+        w = int(round(gap))
+        cv.rectangle(img, (x, 0, w, int(h)), 0, cv.FILLED)
+
+    return cv.flip(img, 0)
+
+#sliding & stretching
